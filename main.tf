@@ -1,12 +1,12 @@
 terraform {
   required_version = "~> 0.12"
-  # backend "s3" {
-  #   bucket         = "flamarion-hashicorp"
-  #   key            = "tfstate/fj-vpc.tfstate"
-  #   region         = "eu-central-1"
-  #   dynamodb_table = "flamarion-hashicorp-locks"
-  #   encrypt        = true
-  # }
+  backend "remote" {
+    organization = "FlamaCorp"
+
+    workspaces {
+      name = "aws-vpc"
+    }
+  }
 }
 
 provider "aws" {
