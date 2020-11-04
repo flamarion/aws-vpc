@@ -4,7 +4,7 @@ terraform {
     organization = "FlamaCorp"
 
     workspaces {
-      name = "aws-vpc"
+      name = "tf-aws-vpc"
     }
   }
 }
