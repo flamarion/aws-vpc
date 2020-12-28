@@ -1,5 +1,11 @@
 terraform {
-  required_version = "~> 0.12"
+  required_version = "~> 0.14"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
   backend "remote" {
     organization = "FlamaCorp"
 
@@ -10,8 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 2.59"
-  region  = "eu-central-1"
+  region = "eu-central-1"
 }
 
 variable "owner" {
@@ -21,7 +26,7 @@ variable "owner" {
 }
 
 module "vpc" {
-  source                      = "github.com/flamarion/terraform-aws-vpc?ref=v0.0.4"
+  source                      = "github.com/flamarion/terraform-aws-vpc?ref=v0.0.5"
   az                          = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
   cidr_block                  = "10.0.0.0/16"
   enable_dns_hostnames        = true
