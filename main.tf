@@ -26,18 +26,22 @@ variable "owner" {
 }
 
 module "vpc" {
-  source                      = "github.com/flamarion/terraform-aws-vpc?ref=v0.0.5"
-  az                          = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
-  cidr_block                  = "10.0.0.0/16"
-  enable_dns_hostnames        = true
-  enable_dns_support          = true
-  public_subnets              = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  private_subnets             = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
-  database_subnets            = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
-  create_db_subnet_group      = true
-  db_subnet_group_name        = "db-subnet-group-${var.owner}"
-  db_subnet_group_description = "Database Subnet Group"
-  enable_nat_gateway          = true
+  source                         = "github.com/flamarion/terraform-aws-vpc?ref=v0.1.1"
+  az                             = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
+  cidr_block                     = "10.0.0.0/16"
+  enable_dns_hostnames           = true
+  enable_dns_support             = true
+  public_subnets                 = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  private_subnets                = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
+  database_subnets               = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
+  cache_subnets                  = ["10.0.31.0/24", "10.0.32.0/24", "10.0.42.0/24"]
+  create_db_subnet_group         = true
+  create_cache_subnet_group      = true
+  db_subnet_group_name           = "db-subnet-group-${var.owner}"
+  db_subnet_group_description    = "Database Subnet Group"
+  cache_subnet_group_name        = "cache-subnet-group-${var.owner}"
+  cache_subnet_group_description = "Cache Subnet Group"
+  enable_nat_gateway             = true
 
   # Resource Tags
   vpc_tags = {
@@ -54,6 +58,9 @@ module "vpc" {
   }
   db_subnet_group_tags = {
     "Name" = "db-subnet-group-${var.owner}"
+  }
+  cache_subnet_group_tags = {
+    "Name" = "cache-subnet-group-${var.owner}"
   }
   nat_gw_tags = {
     "Name" = "nat-gw-${var.owner}"
@@ -72,6 +79,9 @@ module "vpc" {
   }
   db_rt_tags = {
     "Name" = "database-subnet-route-table-${var.owner}"
+  }
+  cache_rt_tags = {
+    "Name" = "cache-subnet-route-table-${var.owner}"
   }
 }
 
@@ -110,4 +120,16 @@ output "database_subnets_id" {
 
 output "database_subnet_group" {
   value = module.vpc.db_subnet_group
+}
+
+output "cache_subnets" {
+  value = module.vpc.cache_subnets
+}
+
+output "cache_subnets_id" {
+  value = module.vpc.cache_subnets_id
+}
+
+output "cache_subnet_group" {
+  value = module.vpc.cache_subnet_group
 }
