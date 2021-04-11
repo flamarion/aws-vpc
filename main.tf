@@ -26,7 +26,7 @@ variable "owner" {
 }
 
 module "vpc" {
-  source                         = "github.com/flamarion/terraform-aws-vpc?ref=v0.1.1"
+  source                         = "github.com/flamarion/terraform-aws-vpc?ref=v0.1.2"
   az                             = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
   cidr_block                     = "10.0.0.0/16"
   enable_dns_hostnames           = true
@@ -41,7 +41,7 @@ module "vpc" {
   db_subnet_group_description    = "Database Subnet Group"
   cache_subnet_group_name        = "cache-subnet-group-${var.owner}"
   cache_subnet_group_description = "Cache Subnet Group"
-  enable_nat_gateway             = true
+  enable_nat_gateway             = false
 
   # Resource Tags
   vpc_tags = {
@@ -62,12 +62,12 @@ module "vpc" {
   cache_subnet_group_tags = {
     "Name" = "cache-subnet-group-${var.owner}"
   }
-  nat_gw_tags = {
-    "Name" = "nat-gw-${var.owner}"
-  }
-  eip_tags = {
-    "Name" = "elastic-ip-${var.owner}"
-  }
+  # nat_gw_tags = {
+  #   "Name" = "nat-gw-${var.owner}"
+  # }
+  # eip_tags = {
+  #   "Name" = "elastic-ip-${var.owner}"
+  # }
   igw_tags = {
     "Name" = "internet-gateway-${var.owner}"
   }
